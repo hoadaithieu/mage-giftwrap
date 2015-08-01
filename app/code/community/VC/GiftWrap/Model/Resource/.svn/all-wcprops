@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/209697/KIN/trunk/app/code/local/GOS/JobBag/Model/Resource
+END
+Setup.php
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/205716/KIN/trunk/app/code/local/GOS/JobBag/Model/Resource/Setup.php
+END
+Abstract.php
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/205716/KIN/trunk/app/code/local/GOS/JobBag/Model/Resource/Abstract.php
+END
+Attribute.php
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/205716/KIN/trunk/app/code/local/GOS/JobBag/Model/Resource/Attribute.php
+END
+Jobbag.php
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/209697/KIN/trunk/app/code/local/GOS/JobBag/Model/Resource/Jobbag.php
+END
+Machine.php
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/206167/KIN/trunk/app/code/local/GOS/JobBag/Model/Resource/Machine.php
+END

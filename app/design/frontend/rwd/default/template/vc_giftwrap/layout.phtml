@@ -1,0 +1,35 @@
+<p class="vcgw-top-tool">
+	<span class="title"><?php echo $this->__('CHOOSE GIFT BOX & GIFT CARD');?></span>
+	<span class="close" title="<?php echo $this->__('Close');?>">X</span>
+</p>
+<form name="wrapForm" id="wrapForm">
+	<?php echo $this->getChild('product.giftwrap.list')->setGroupId($this->getGroupId())->toHtml();?>
+	<input type="hidden" name="item_id" id="item_id" value="<?php echo $this->getItemId();?>"/>
+</form>
+<div class="error" style="display:none"></div>
+<button type="button" class="button button-change" data-error-msg="<?php echo $this->__('Please choose existing group or new gift box.');?>" data-link="<?php echo $this->getUrl('vc_giftwrap/wrap/changeWrapLayout', array('id' => $this->getId(), 'type' => $this->getType()));?>">
+	<span><span><?php echo $this->__('Change');?></span></span>
+</button>
+
+<script type="text/javascript">
+//<![CDATA[
+	
+	<?php
+	if ($this->getType() == 'card') :
+	?>
+		jQuery('.vcgw-group').hide();
+		jQuery('.vcgw-box').hide();
+	<?php
+	elseif ($this->getType() == 'box') :
+	?>
+		jQuery('.vcgw-group').hide();
+		jQuery('.vcgw-card').hide();
+	<?php
+	else:
+	?>
+		
+	<?php
+	endif;
+	?>
+//]]>
+</script>

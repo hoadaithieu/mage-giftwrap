@@ -1,0 +1,24 @@
+<div class="entry-edit">
+	<div class="entry-edit-head">
+		<h4 class="icon-head head-products"><?php echo $this->__('Wrapped Items to Invoice')?></h4>
+	</div>
+</div>
+<div>
+	  <?php echo $this->getChild('invoice.view.giftwrap')->setOrder($this->getOrder())->toHtml() ?>
+</div>
+
+
+
+<div class="entry-edit">
+	<div class="entry-edit-head">
+		<?php
+			$_itemsGridLabel = $this->getForcedShipmentCreate()?'Items to Invoice and Ship':'Items to Invoice';
+		?>
+		<h4 class="icon-head head-products"><?php echo Mage::helper('sales')->__('%s', $_itemsGridLabel) ?></h4>
+	</div>
+</div>
+
+
+<div id="invoice_item_subcontainer">
+	  <?php echo $this->getChildHtml('order_product_items') ?>
+</div>

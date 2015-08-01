@@ -1,0 +1,455 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <VC_GiftWrap>
+            <version>1.0.1</version>
+        </VC_GiftWrap>
+    </modules>
+    <frontend>
+        <routers>
+            <vc_giftwrap>
+                <use>standard</use>
+                <args>
+                    <module>VC_GiftWrap</module>
+                    <frontName>freegift</frontName>
+                </args>
+            </vc_giftwrap>
+        </routers>
+        <layout>
+            <updates>
+                <vc_giftwrap>
+                    <file>vc_giftwrap.xml</file>
+                </vc_giftwrap>
+            </updates>
+        </layout>
+    </frontend>
+    <admin>
+        <routers>
+			<vc_giftwrap>
+				<use>admin</use>
+				<args>
+					<module>VC_GiftWrap</module>
+					<frontName>vc_giftwrap</frontName>
+				</args>
+			</vc_giftwrap>
+        </routers>
+    </admin>
+    <adminhtml>
+		<menu>
+			<catalog translate="title" module="catalog">
+				<children>
+					<vc_giftwrap module="vc_giftwrap">
+						<title>Gift Wrap</title>
+						<sort_order>1</sort_order>
+						
+						<children>
+							<vc_giftwrap_box module="vc_giftwrap">
+								<title>Manage Gift Boxes</title>
+								<sort_order>5</sort_order>
+								<action>vc_giftwrap/adminhtml_box/index</action>
+							</vc_giftwrap_box>
+							
+							<vc_giftwrap_card translate="title" module="vc_giftwrap">
+								<title>Manage Gift Cards</title>
+								<sort_order>10</sort_order>
+								<action>vc_giftwrap/adminhtml_card/index</action>
+							</vc_giftwrap_card>
+
+							<vc_giftwrap_wrapable_product translate="title" module="vc_giftwrap">
+								<title>Manage Wrapable Products</title>
+								<sort_order>15</sort_order>
+								<action>vc_giftwrap/adminhtml_product/index</action>
+							</vc_giftwrap_wrapable_product>
+
+							<vc_giftwrap_setting translate="title" module="vc_giftwrap">
+								<title>Settings</title>
+								<sort_order>20</sort_order>
+								<action>adminhtml/system_config/edit/section/vc_giftwrap</action>
+							</vc_giftwrap_setting>
+						
+						</children>
+						
+					</vc_giftwrap>
+				</children>					
+			</catalog>	
+		</menu>
+		
+		<acl>
+			<resources>
+				<all>
+					<title>Allow Everything</title>
+				</all>
+				<admin>
+					<children>
+						<catalog>
+							<children>
+								<vc_giftwrap>
+									<title>VC Gift Wrap Section</title>
+									
+									<children>
+                                        <vc_giftwrap_box>
+                                            <title>VC Gift Box Section</title>
+                                        </vc_giftwrap_box>
+                                        <vc_giftwrap_card>
+                                            <title>VC Gift Card Section</title>
+                                        </vc_giftwrap_card>
+                                        <vc_giftwrap_wrapable_product>
+                                            <title>VC Wrapable Product Section</title>
+                                        </vc_giftwrap_wrapable_product>
+                                        <vc_giftwrap_setting>
+                                            <title>VC Setting Section</title>
+                                        </vc_giftwrap_setting>
+									
+									</children>
+								</vc_giftwrap>
+								
+							</children>
+						</catalog>
+						<system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <vc_giftwrap>
+                                            <title>VC Gift Wrap Section</title>
+                                        </vc_giftwrap>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+												
+					</children>
+				</admin>
+			</resources>
+		</acl>
+		<layout>
+			<updates>
+				<vc_giftwrap>
+					<file>vc_giftwrap.xml</file>
+				</vc_giftwrap>
+			</updates>
+		</layout>
+    </adminhtml>   
+    <global>
+        <models>
+            <vc_giftwrap>
+                <class>VC_GiftWrap_Model</class>
+                <resourceModel>vc_giftwrap_resource</resourceModel>
+            </vc_giftwrap>
+			<vc_giftwrap_resource>
+                <class>VC_GiftWrap_Model_Resource</class>
+                <deprecatedNode>vc_giftwrap_resource_eav_mysql4</deprecatedNode>
+                <entities>
+                    <box>
+                        <table>vc_giftwrap_box</table>
+                    </box>
+                    <box_store>
+                        <table>vc_giftwrap_box_store</table>
+                    </box_store>
+                    <card>
+                        <table>vc_giftwrap_card</table>
+                    </card>
+                    <card_store>
+                        <table>vc_giftwrap_card_store</table>
+                    </card_store>
+					<wrap>
+						<table>vc_giftwrap_wrap</table>
+					</wrap>
+					<isr>
+						<table>vc_giftwrap_isr</table>
+					</isr>
+					
+				</entities>
+			</vc_giftwrap_resource>	
+			
+			<sales>
+				<rewrite>
+					<order_pdf_invoice>VC_GiftWrap_Model_Sales_Order_Pdf_Invoice</order_pdf_invoice>
+				</rewrite>
+				
+				<rewrite>
+					<order_pdf_creditmemo>VC_GiftWrap_Model_Sales_Order_Pdf_Creditmemo</order_pdf_creditmemo>
+				</rewrite>
+				
+				<rewrite>
+					<order_pdf_shipment>VC_GiftWrap_Model_Sales_Order_Pdf_Shipment</order_pdf_shipment>
+				</rewrite>
+				
+			</sales>
+        </models>	
+		
+		<resources>
+			<vc_giftwrap_setup>
+				<setup>
+					<module>VC_GiftWrap</module>
+				</setup>
+				<connection>
+					<use>core_setup</use>
+				</connection>
+			</vc_giftwrap_setup>
+			<vc_giftwrap_write>
+				<connection>
+					<use>core_write</use>
+				</connection>
+			</vc_giftwrap_write>
+			<vc_giftwrap_read>
+				<connection>
+					<use>core_read</use>
+				</connection>
+			</vc_giftwrap_read>
+		</resources>
+				
+        <blocks>
+            <vc_giftwrap>
+                <class>VC_GiftWrap_Block</class>
+            </vc_giftwrap>
+			
+			<adminhtml>
+				<rewrite>
+					<sales_order_totals>VC_GiftWrap_Block_Adminhtml_Sales_Order_Totals</sales_order_totals>
+					<sales_order_invoice_totals>VC_GiftWrap_Block_Adminhtml_Sales_Order_Invoice_Totals</sales_order_invoice_totals>
+					<sales_order_creditmemo_totals>VC_GiftWrap_Block_Adminhtml_Sales_Order_Creditmemo_Totals</sales_order_creditmemo_totals>
+				</rewrite>
+			</adminhtml>
+			
+			<sales>
+				<rewrite>
+					<order_totals>VC_GiftWrap_Block_Sales_Order_Totals</order_totals>
+					<order_invoice_totals>VC_GiftWrap_Block_Sales_Order_Invoice_Totals</order_invoice_totals>
+					<order_creditmemo_totals>VC_GiftWrap_Block_Sales_Order_Creditmemo_Totals</order_creditmemo_totals>
+				</rewrite>
+			</sales>
+        </blocks>
+	
+        <helpers>
+            <vc_giftwrap>
+                <class>VC_GiftWrap_Helper</class>
+            </vc_giftwrap>
+        </helpers>
+		
+		<sales>
+			<quote>
+                <totals>	
+                    <vc_giftwrap_subtotal>
+                        <class>vc_giftwrap/sales_quote_address_total_subtotal</class>
+                        <after>subtotal,shipping</after>
+                        <before>tax,grand_total</before>
+                    </vc_giftwrap_subtotal>
+				</totals>
+			</quote>
+ 			<order_invoice>
+                <totals>
+                    <vc_giftwrap_subtotal>
+                        <class>vc_giftwrap/sales_order_invoice_total_subtotal</class>
+                        <before>tax,grand_total</before>
+                    </vc_giftwrap_subtotal>
+				</totals>
+			</order_invoice>
+ 			<order_creditmemo>
+                <totals>
+                    <vc_giftwrap_subtotal>
+                        <class>vc_giftwrap/sales_order_creditmemo_total_subtotal</class>
+                        <before>tax,grand_total</before>
+                    </vc_giftwrap_subtotal>
+				</totals>
+			</order_creditmemo>			
+ 						
+		</sales>
+		
+		
+		<pdf>
+ 			<totals>
+                <vc_giftwrap_subtotal translate="title">
+                    <title>Gift Wrap</title>
+					<!--model>vc_giftwrap/sales_order_pdf_total_invoice</model-->
+                    <font_size>7</font_size>
+                    <display_zero>1</display_zero>
+                    <sort_order>101</sort_order>
+                </vc_giftwrap_subtotal>	
+			</totals>		
+		</pdf>
+		
+		<events>
+			<sales_order_invoice_save_after>
+				<observers>
+					<vc_giftwrap_sales_order_invoice_save_after>
+						<class>vc_giftwrap/observer</class>
+						<method>invoiceSaveAfter</method>
+					</vc_giftwrap_sales_order_invoice_save_after>
+				</observers>
+			</sales_order_invoice_save_after>
+			
+			<sales_order_creditmemo_save_after>
+				<observers>
+					<vc_giftwrap_sales_order_creditmemo_save_after>
+						<class>vc_giftwrap/observer</class>
+						<method>creditmemoSaveAfter</method>
+					</vc_giftwrap_sales_order_creditmemo_save_after>
+				</observers>
+			</sales_order_creditmemo_save_after>
+
+			<sales_order_shipment_save_after>
+				<observers>
+					<vc_giftwrap_sales_order_shipment_save_after>
+						<class>vc_giftwrap/observer</class>
+						<method>shipmentSaveAfter</method>
+					</vc_giftwrap_sales_order_shipment_save_after>
+				</observers>
+			</sales_order_shipment_save_after>
+					
+			<checkout_cart_update_items_after>
+				<observers>
+					<vc_giftwrap_checkout_cart_update_items_after>
+						<class>vc_giftwrap/observer</class>
+						<method>cartUpdateItemsAfter</method>
+					</vc_giftwrap_checkout_cart_update_items_after>
+				</observers>
+			</checkout_cart_update_items_after>
+			
+			<quote_save_commit_after>
+				<observers>
+					<vc_giftwrap_quote_save_commit_after>
+						<class>vc_giftwrap/observer</class>
+						<method>quoteSaveCommitAfter</method>
+					</vc_giftwrap_quote_save_commit_after>
+				</observers>
+			</quote_save_commit_after>
+			
+			<load_customer_quote_before>
+				<observers>
+					<vc_giftwrap_load_customer_quote_before>
+						<class>vc_giftwrap/observer</class>
+						<method>loadCustomerQuoteBefore</method>
+					</vc_giftwrap_load_customer_quote_before>
+				</observers>
+			</load_customer_quote_before>
+			
+			<controller_action_predispatch_adminhtml_sales_order_invoice_updateQty>
+				<observers>
+					<vc_giftwrap_controller_action_predispatch_adminhtml_sales_order_invoice_updateqty>
+						<class>vc_giftwrap/observer</class>
+						<method>invoiceUpdateQty</method>
+					</vc_giftwrap_controller_action_predispatch_adminhtml_sales_order_invoice_updateqty>
+				</observers>
+			</controller_action_predispatch_adminhtml_sales_order_invoice_updateQty>
+
+			<controller_action_predispatch_adminhtml_sales_order_invoice_save>
+				<observers>
+					<vc_giftwrap_controller_action_predispatch_adminhtml_sales_order_invoice_save>
+						<class>vc_giftwrap/observer</class>
+						<method>invoiceSave</method>
+					</vc_giftwrap_controller_action_predispatch_adminhtml_sales_order_invoice_save>
+				</observers>
+			</controller_action_predispatch_adminhtml_sales_order_invoice_save>
+		
+		
+		
+			
+			<controller_action_predispatch_adminhtml_sales_order_creditmemo_updateQty>
+				<observers>
+					<vc_giftwrap_controller_action_predispatch_adminhtml_sales_order_creditmemo_updateqty>
+						<class>vc_giftwrap/observer</class>
+						<method>creditmemoUpdateQty</method>
+					</vc_giftwrap_controller_action_predispatch_adminhtml_sales_order_creditmemo_updateqty>
+				</observers>
+			</controller_action_predispatch_adminhtml_sales_order_creditmemo_updateQty>
+
+			<controller_action_predispatch_adminhtml_sales_order_creditmemo_save>
+				<observers>
+					<vc_giftwrap_controller_action_predispatch_adminhtml_sales_order_creditmemo_save>
+						<class>vc_giftwrap/observer</class>
+						<method>creditmemoSave</method>
+					</vc_giftwrap_controller_action_predispatch_adminhtml_sales_order_creditmemo_save>
+				</observers>
+			</controller_action_predispatch_adminhtml_sales_order_creditmemo_save>	
+			
+			<controller_action_predispatch_adminhtml_sales_order_shipment_save>
+				<observers>
+					<vc_giftwrap_controller_action_predispatch_adminhtml_sales_order_shipment_save>
+						<class>vc_giftwrap/observer</class>
+						<method>shipmentSave</method>
+					</vc_giftwrap_controller_action_predispatch_adminhtml_sales_order_shipment_save>
+				</observers>
+			</controller_action_predispatch_adminhtml_sales_order_shipment_save>	
+				
+			
+			<checkout_cart_update_item_complete>
+				<observers>
+					<vc_giftwrap_checkout_cart_update_item_complete>
+						<class>vc_giftwrap/observer</class>
+						<method>updateWrap</method>
+					</vc_giftwrap_checkout_cart_update_item_complete>
+				</observers>
+			</checkout_cart_update_item_complete>
+			
+			
+			<sales_quote_item_save_after>
+				<observers>
+					<vc_giftwrap_sales_quote_item_save_after>
+						<class>vc_giftwrap/observer</class>
+						<method>addWrap</method>
+					</vc_giftwrap_sales_quote_item_save_after>
+				</observers>
+			</sales_quote_item_save_after>
+			
+			<sales_quote_item_delete_before>
+				<observers>
+					<vc_giftwrap_sales_quote_item_delete_before>
+						<class>vc_giftwrap/observer</class>
+						<method>saveWrapByQuoteItem</method>
+					</vc_giftwrap_sales_quote_item_delete_before>
+				</observers>
+			</sales_quote_item_delete_before>
+			
+			<sales_quote_item_delete_after>
+				<observers>
+					<vc_giftwrap_sales_quote_item_delete_after>
+						<class>vc_giftwrap/observer</class>
+						<method>removeWrapByQuoteItem</method>
+					</vc_giftwrap_sales_quote_item_delete_after>
+				</observers>
+			</sales_quote_item_delete_after>
+			
+			
+			<checkout_type_onepage_save_order_after>
+				<observers>
+					<vc_giftwrap_checkout_type_onepage_save_order_after>
+						<class>vc_giftwrap/observer</class>
+						<method>updateOrderId</method>
+					</vc_giftwrap_checkout_type_onepage_save_order_after>
+				</observers>
+			</checkout_type_onepage_save_order_after>
+		</events>
+		
+        <pdf>
+            <invoice>
+                <giftwrap>vc_giftwrap/sales_order_pdf_items_invoice_giftwrap</giftwrap>
+            </invoice>
+            <creditmemo>
+                <giftwrap>vc_giftwrap/sales_order_pdf_items_creditmemo_giftwrap</giftwrap>
+            </creditmemo>
+            <shipment>
+                <giftwrap>vc_giftwrap/sales_order_pdf_items_shipment_giftwrap</giftwrap>
+            </shipment>
+			
+		</pdf>			
+    </global>
+	
+	<default>
+		<vc_giftwrap>
+			<general>
+				<enable>1</enable>
+				<image_folder>vc_giftwrap</image_folder>
+				<image_extension_allow>.gif,.jpg,.png,.jpeg</image_extension_allow>
+				<image_width>300</image_width>
+				<image_height>300</image_height>
+			</general>
+			<card>
+				<max_character_default>200</max_character_default>
+			</card>
+			<pdf>
+				<image_extension_allow>.tif, .tiff, .png, .jpg, .jpe, .jpeg</image_extension_allow>
+			</pdf>
+		</vc_giftwrap>
+	</default>
+	
+</config>

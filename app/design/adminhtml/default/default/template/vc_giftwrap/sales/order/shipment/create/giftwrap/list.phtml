@@ -1,0 +1,125 @@
+<?php
+$collection = $this->getList();
+if ($collection && $collection->getSize() > 0) :
+?>
+<div class="grid np">
+	<div class="hor-scroll">
+		<table cellspacing="0" class="data order-tables giftwrap-table">
+			<col width="10px" />
+			<col />
+			<col />
+			<col width="30%"/>
+			<col />
+			<thead>
+				<tr class="headings">
+					<th><?php echo $this->__('NO');?></th>
+					<th><?php echo $this->__('GIFT BOX');?></th>
+					<th><?php echo $this->__('GIFT CARD');?></th>
+					<th><?php echo $this->__('CARD MESSAGE');?></th>
+					<th><?php echo $this->__('WRAPPED ITEMS');?></th>
+				</tr>
+			</thead>
+			<tbody>				
+			<?php
+				$i = 0;
+				$items = $this->processGroup($collection);
+				foreach ($items as $item) :
+					$i++;
+					$product = Mage::getModel('catalog/product')->load($item->getProductId());
+			?>
+			<tr class="<?php echo $i%2?'even':'odd' ?>">
+				<td>#<?php echo $i;?></td>
+				<td>
+					<img src="<?php echo $this->getImage($item->getBoxImage());?>">
+					<br/><b><?php echo $this->helper('checkout')->formatPrice($item->getBoxPrice());?></b>
+					<br/>
+					<a href="<?php echo $this->getUrl('vc_giftwrap/adminhtml_box/edit/', array('id' => $item->getBoxId()));?>"><?php echo $this->__('View detail');?></a>
+				</td>
+				<td>
+					<?php if (strlen(trim($item->getCardPrice())) > 0) :?>
+						<img src="<?php echo $this->getImage($item->getCardImage());?>">
+						<br/><b><?php echo $this->helper('checkout')->formatPrice($item->getCardPrice());?></b>
+						<br/>
+						<a href="<?php echo $this->getUrl('vc_giftwrap/adminhtml_card/edit/', array('id' => $item->getCardId()));?>"><?php echo $this->__('View detail');?></a>
+					<?php else:?>
+						--
+					<?php endif;?>
+				</td>
+				
+				<td><?php echo $item->getCardMessage();?></td>
+				<td class="giftwrap-icol">
+					<?php
+					$price = 0.00;
+					$groupItem = $item->getGroupItem();
+					if (is_array($groupItem) && count($groupItem) > 0) :
+						?>
+						<table class="giftwrap-itable" border="0">
+							<col />
+							<col width="100px"/>
+							<col width="100px"/>
+							<col width="10%"/>
+							<thead class="headings">
+								<tr>
+									<th><?php echo $this->__('Product');?></td>
+									<th><?php echo $this->__('Price');?></th>
+									<th><?php echo $this->__('Qty');?></td>
+									<th><?php echo $this->__('Qty to Ship');?></td>
+								</tr>
+							</thead>
+							<tbody>
+							
+						<?php
+						$j = 0;
+						foreach ($groupItem as $itemGroup) :
+							$j++;
+							$qty = $itemGroup['product_qty'] - (int)$itemGroup['product_qty_refunded'] - (int)$itemGroup['product_qty_shipped'];
+							$price += $qty * $itemGroup['price'];
+							?>
+							<tr class="<?php echo $j%2?'even':'odd' ?>">
+								<td>
+									<b><?php echo $itemGroup['product_name'];?></b>
+									<div><b>SKU:</b> <?php echo $itemGroup['sku'];?></div>
+								</td>
+								<td><b><?php echo $this->helper('checkout')->formatPrice($itemGroup['price']);?></b></td>
+								<td>
+									<?php echo $this->__('Ordered');?> <b><?php echo $itemGroup['product_qty'];?></b>
+									<?php if ($itemGroup['product_qty_invoiced'] != NULL) :?>
+										<?php echo $this->__('Invoiced');?> <b><?php echo $itemGroup['product_qty_invoiced'];?></b>
+									<?php endif;?>
+									<?php if ($itemGroup['product_qty_shipped'] != NULL) :?>
+										<?php echo $this->__('Shipped');?> <b><?php echo $itemGroup['product_qty_shipped'];?></b>
+									<?php endif;?>
+									
+									<?php if ($itemGroup['product_qty_refunded'] != NULL) :?>
+										<?php echo $this->__('Refunded');?> <b><?php echo $itemGroup['product_qty_refunded'];?></b>
+									<?php endif;?>
+									
+								</td>
+								
+								<td>
+									<input type="text"  class="input-text qty-input" name="shipment[wrapped_items][<?php echo $itemGroup['wrap_id']?>]" value="<?php echo $qty;?>"/>
+								</td>
+							</tr>
+							<?php
+						endforeach;
+						?>
+							</tbody>
+						</table>	
+						<?php
+					endif;
+					?>
+				</td>
+				
+			</tr>
+			<?php
+				endforeach;
+			?>
+			</tbody>
+		</table>
+	</div>
+</div>
+<br />
+
+<?php	
+endif;
+?>

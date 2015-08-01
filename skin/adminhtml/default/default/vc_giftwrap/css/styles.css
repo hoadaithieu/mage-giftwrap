@@ -1,0 +1,46 @@
+
+
+.giftwrap-table{
+	width:100% !important;
+}
+
+.giftwrap-table tbody td img{
+	width:70px;
+	height:70px;
+}
+
+.giftwrap-table .giftwrap-itable tr{
+	border:0px !important;
+}
+.giftwrap-itable{
+	background:#ffffff;
+}
+.giftwrap-itable .button span{
+	color:#ffffff;
+}
+.giftwrap-itable, .giftwrap-table .giftwrap-itable td{
+	border:0px !important;
+}
+.giftwrap-itable .headings tr{
+}
+.giftwrap-icol{
+	padding-top: 0px !important;
+}
+
+.giftwrap-itable .headings,.giftwrap-itable .headings tr{
+	background: url(../../images/sort_row_bg.gif) 0 50% repeat-x !important;
+}
+
+.giftwrap-itable tbody tr.even{
+	background: #f6f6f6;
+}
+
+.giftwrap-itable tbody tr.odd{
+	background: #ffffff;
+}
+
+
+.giftwrap-itable .qty span{
+	width: 80px;
+	display: inline-block;
+} 

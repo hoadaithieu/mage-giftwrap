@@ -1,0 +1,192 @@
+<?xml version="1.0"?>
+<layout>
+	<vc_giftwrap_adminhtml>
+		<reference name="head">
+			<action method="addItem" ifconfig="vc_giftwrap/general/enable"><type>skin_css</type><name>vc_giftwrap/css/styles.css</name><params/></action>
+		</reference>
+	</vc_giftwrap_adminhtml>
+	
+    <vc_giftwrap_adminhtml_box_index>
+        <update handle="editor" />
+        <reference name="content">
+            <block type="vc_giftwrap/adminhtml_box" name="box" >
+                <block type="adminhtml/store_switcher" name="store_switcher" as="store_switcher">
+                    <action method="setUseConfirm"><params>0</params></action>
+                </block>	
+			</block>
+        </reference>
+    </vc_giftwrap_adminhtml_box_index>
+	
+	<vc_giftwrap_adminhtml_box_edit>
+		<update handle="editor" />
+	</vc_giftwrap_adminhtml_box_edit>
+
+	<vc_giftwrap_adminhtml_box_new>
+		<update handle="editor" />
+	</vc_giftwrap_adminhtml_box_new>
+	
+    <vc_giftwrap_adminhtml_card_index>
+        <update handle="editor" />
+        <reference name="content">
+            <block type="vc_giftwrap/adminhtml_card" name="card" >
+                <block type="adminhtml/store_switcher" name="store_switcher" as="store_switcher">
+                    <action method="setUseConfirm"><params>0</params></action>
+                </block>	
+			</block>
+        </reference>
+    </vc_giftwrap_adminhtml_card_index>
+	
+	<vc_giftwrap_adminhtml_card_edit>
+		<update handle="editor" />
+	</vc_giftwrap_adminhtml_card_edit>
+
+	<vc_giftwrap_adminhtml_card_new>
+		<update handle="editor" />
+	</vc_giftwrap_adminhtml_card_new>
+		
+    <vc_giftwrap_adminhtml_product_index>
+        <update handle="editor" />
+        <reference name="content">
+            <block type="vc_giftwrap/adminhtml_product" name="box" >
+                <block type="adminhtml/store_switcher" name="store_switcher" as="store_switcher">
+                    <action method="setUseConfirm"><params>0</params></action>
+                </block>	
+			</block>
+        </reference>
+    </vc_giftwrap_adminhtml_product_index>
+	
+    <vc_giftwrap_adminhtml_product_grid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="vc_giftwrap/adminhtml_product_grid" name="admin.product.grid"/>
+        </block>
+    </vc_giftwrap_adminhtml_product_grid>
+	
+	<adminhtml_sales_order_view>
+		<update handle="vc_giftwrap_adminhtml"/>
+		<reference name="order_tab_info">
+			<action method="setTemplate" ifconfig="vc_giftwrap/general/enable"><template>vc_giftwrap/sales/order/view/tab/info.phtml</template></action>
+			<block type="vc_giftwrap/adminhtml_wrap" name="order.view.giftwrap" as="order.view.giftwrap">
+				<action method="setTemplate" ifconfig="vc_giftwrap/general/enable"><template>vc_giftwrap/sales/order/view/tab/info/giftwrap/list.phtml</template></action>
+			</block>
+		</reference>
+	</adminhtml_sales_order_view>
+	
+	<adminhtml_sales_order_invoice_new>
+		<update handle="vc_giftwrap_adminhtml"/>
+		<reference name="form">
+			<action method="setTemplate" ifconfig="vc_giftwrap/general/enable"><template>vc_giftwrap/sales/order/invoice/create/form.phtml</template></action>
+			<block type="vc_giftwrap/adminhtml_wrap" name="invoice.view.giftwrap" as="invoice.view.giftwrap">
+				<action method="setTemplate" ifconfig="vc_giftwrap/general/enable"><template>vc_giftwrap/sales/order/invoice/create/giftwrap/list.phtml</template></action>
+			</block>
+		</reference>
+	</adminhtml_sales_order_invoice_new>
+	
+	<adminhtml_sales_order_invoice_updateqty>
+		<block type="adminhtml/sales_order_invoice_create_items" name="order_items">
+			<action method="setTemplate" ifconfig="vc_giftwrap/general/enable"><template>vc_giftwrap/sales/order/invoice/create/items.phtml</template></action>
+			<block type="vc_giftwrap/adminhtml_wrap_invoice" name="invoice.view.giftwrap.valid" as="invoice.view.giftwrap.valid">
+				<action method="showValidQty"></action>
+			</block>
+			<block type="vc_giftwrap/adminhtml_wrap" name="invoice.view.giftwrap" as="invoice.view.giftwrap">
+				<action method="setTemplate"><template>vc_giftwrap/sales/order/invoice/create/giftwrap/list.phtml</template></action>
+			</block>
+			<block type="adminhtml/sales_order_invoice_create_items" name="order_product_items" template="sales/order/invoice/create/items.phtml">
+				<action method="addItemRender"><type>default</type><block>adminhtml/sales_items_renderer_default</block><template>sales/order/invoice/create/items/renderer/default.phtml</template></action>
+				<action method="addColumnRender"><column>qty</column><block>adminhtml/sales_items_column_qty</block><template>sales/items/column/qty.phtml</template></action>
+				<action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name</block><template>sales/items/column/name.phtml</template></action>
+				<action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name_grouped</block><template>sales/items/column/name.phtml</template><type>grouped</type></action>
+				<block type="core/text_list" name="order_item_extra_info"></block>
+				<block type="adminhtml/sales_order_totalbar" name="order_totalbar" template="sales/order/totalbar.phtml"></block>
+				<block type="adminhtml/sales_order_invoice_totals" name="invoice_totals" template="sales/order/totals.phtml">
+					<block type="adminhtml/sales_order_totals_tax" name="tax" template="sales/order/totals/tax.phtml" />
+					
+				</block>
+			</block>				
+		</block>
+	</adminhtml_sales_order_invoice_updateqty>	
+	
+	<adminhtml_sales_order_invoice_view>
+		<update handle="vc_giftwrap_adminhtml"/>
+		<reference name="form">
+			<action method="setTemplate" ifconfig="vc_giftwrap/general/enable"><template>vc_giftwrap/sales/order/invoice/view/form.phtml</template></action>
+			<block type="vc_giftwrap/adminhtml_wrap_invoice" name="invoice.view.giftwrap" as="invoice.view.giftwrap">
+				<action method="setTemplate"><template>vc_giftwrap/sales/order/invoice/view/giftwrap/list.phtml</template></action>
+			</block>
+		</reference>
+	</adminhtml_sales_order_invoice_view>	
+	
+	
+	<adminhtml_sales_order_creditmemo_new>
+		<update handle="vc_giftwrap_adminhtml"/>
+		<reference name="form">
+			<action method="setTemplate" ifconfig="vc_giftwrap/general/enable"><template>vc_giftwrap/sales/order/creditmemo/create/form.phtml</template></action>
+			<block type="vc_giftwrap/adminhtml_wrap" name="creditmemo.view.giftwrap" as="creditmemo.view.giftwrap">
+				<action method="setTemplate"><template>vc_giftwrap/sales/order/creditmemo/create/giftwrap/list.phtml</template></action>
+			</block>
+		</reference>
+	</adminhtml_sales_order_creditmemo_new>
+	
+	<adminhtml_sales_order_creditmemo_updateqty>
+		<block type="adminhtml/sales_order_creditmemo_create_items" name="order_items">
+			<action method="setTemplate" ifconfig="vc_giftwrap/general/enable"><template>vc_giftwrap/sales/order/creditmemo/create/items.phtml</template></action>
+			<block type="vc_giftwrap/adminhtml_wrap_creditmemo" name="creditmemo.view.giftwrap.valid" as="creditmemo.view.giftwrap.valid">
+				<action method="showValidQty"></action>
+			</block>
+			<block type="vc_giftwrap/adminhtml_wrap" name="creditmemo.view.giftwrap" as="creditmemo.view.giftwrap">
+				<action method="setTemplate"><template>vc_giftwrap/sales/order/creditmemo/create/giftwrap/list.phtml</template></action>
+			</block>
+				
+			<block type="adminhtml/sales_order_creditmemo_create_items" name="order_product_items" template="sales/order/creditmemo/create/items.phtml">
+				<action method="addItemRender"><type>default</type><block>adminhtml/sales_items_renderer_default</block><template>sales/order/creditmemo/create/items/renderer/default.phtml</template></action>
+				<action method="addColumnRender"><column>qty</column><block>adminhtml/sales_items_column_qty</block><template>sales/items/column/qty.phtml</template></action>
+				<action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name</block><template>sales/items/column/name.phtml</template></action>
+				<action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name_grouped</block><template>sales/items/column/name.phtml</template><type>grouped</type></action>
+				<block type="core/text_list" name="order_item_extra_info"></block>
+				<block type="adminhtml/sales_order_totalbar" name="order_totalbar" template="sales/order/totalbar.phtml"></block>
+	
+				<block type="adminhtml/sales_order_creditmemo_totals" name="creditmemo_totals" template="sales/order/totals.phtml">
+					<block type="adminhtml/sales_order_creditmemo_create_adjustments" name="adjustments" template="sales/order/creditmemo/create/totals/adjustments.phtml" />
+					<block type="adminhtml/sales_order_totals_tax" name="tax" template="sales/order/totals/tax.phtml" />
+		 
+				</block>
+	
+				<block type="core/text_list" name="submit_before" />
+				<block type="core/text_list" name="submit_after" />
+			</block>	
+		</block>
+	</adminhtml_sales_order_creditmemo_updateqty>
+	
+	<adminhtml_sales_order_creditmemo_view>
+		<update handle="vc_giftwrap_adminhtml"/>
+		<reference name="form">
+			<action method="setTemplate" ifconfig="vc_giftwrap/general/enable"><template>vc_giftwrap/sales/order/creditmemo/view/form.phtml</template></action>
+			<block type="vc_giftwrap/adminhtml_wrap_creditmemo" name="creditmemo.view.giftwrap" as="creditmemo.view.giftwrap">
+				<action method="setTemplate"><template>vc_giftwrap/sales/order/creditmemo/view/giftwrap/list.phtml</template></action>
+			</block>
+		</reference>
+	</adminhtml_sales_order_creditmemo_view>
+	
+	
+	
+	<adminhtml_sales_order_shipment_new>
+		<update handle="vc_giftwrap_adminhtml"/>
+		<reference name="form">
+			<action method="setTemplate" ifconfig="vc_giftwrap/general/enable"><template>vc_giftwrap/sales/order/shipment/create/form.phtml</template></action>
+			<block type="vc_giftwrap/adminhtml_wrap" name="shipment.view.giftwrap" as="shipment.view.giftwrap">
+				<action method="setTemplate"><template>vc_giftwrap/sales/order/shipment/create/giftwrap/list.phtml</template></action>
+			</block>
+		</reference>
+	</adminhtml_sales_order_shipment_new>
+	
+	<adminhtml_sales_order_shipment_view>
+		<update handle="vc_giftwrap_adminhtml"/>
+		<reference name="form">
+			<action method="setTemplate" ifconfig="vc_giftwrap/general/enable"><template>vc_giftwrap/sales/order/shipment/view/form.phtml</template></action>
+			<block type="vc_giftwrap/adminhtml_wrap_shipment" name="shipment.view.giftwrap" as="shipment.view.giftwrap">
+				<action method="setTemplate"><template>vc_giftwrap/sales/order/shipment/view/giftwrap/list.phtml</template></action>
+			</block>
+		</reference>
+	</adminhtml_sales_order_shipment_view>
+	
+	
+</layout>

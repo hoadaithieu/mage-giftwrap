@@ -1,0 +1,144 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+	<vc_giftwrap>
+		<reference name="head">
+			<action method="addItem" ifconfig="vc_giftwrap/general/enable"><type>skin_js</type><name>vc_giftwrap/js/jquery/jquery-1.10.2.js</name></action>
+			<action method="addItem" ifconfig="vc_giftwrap/general/enable"><type>skin_js</type><name>vc_giftwrap/js/jquery/noconflict.js</name></action>
+		
+			<action method="addItem" ifconfig="vc_giftwrap/general/enable"><type>skin_css</type><name>vc_giftwrap/css/styles.css</name><params/></action>
+			<action method="addItem" ifconfig="vc_giftwrap/general/enable"><type>skin_js</type><name>vc_giftwrap/js/scripts.js</name><params/></action>		
+		</reference>	
+	</vc_giftwrap>
+	<catalog_product_view>
+		<update handle="vc_giftwrap"/>
+		<reference name="product.info">
+			<action method="setTemplate" ifconfig="vc_giftwrap/general/enable"><template>vc_giftwrap/catalog/product/view.phtml</template></action>
+			<block type="vc_giftwrap/list" name="product.giftwrap.list" as="product.giftwrap.list" translate="label">
+				<action method="setTemplate" ifconfig="vc_giftwrap/general/enable"><template>vc_giftwrap/catalog/product/view/giftwrap/list.phtml</template></action>
+			</block>
+		</reference>
+	</catalog_product_view>
+	
+	<checkout_cart_index>
+		<update handle="vc_giftwrap"/>
+		<reference name="checkout.cart.form.before">
+			<block type="vc_giftwrap/wrap" name="checkout.giftwrap" as="checkout.giftwrap">
+				<action method="setTemplate" ifconfig="vc_giftwrap/general/enable"><template>vc_giftwrap/checkout/giftwrap/list.phtml</template></action>
+			</block>
+		</reference>
+		
+		<reference name="checkout.cart">
+			<action method="addItemRender" ifconfig="vc_giftwrap/general/enable"><type>simple</type><block>checkout/cart_item_renderer</block><template>vc_giftwrap/checkout/cart/item/default.phtml</template></action>
+			<action method="addItemRender" ifconfig="vc_giftwrap/general/enable"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>vc_giftwrap/checkout/cart/item/default.phtml</template></action>
+			<action method="addItemRender" ifconfig="vc_giftwrap/general/enable"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>vc_giftwrap/checkout/cart/item/default.phtml</template></action>
+		
+		</reference>
+		
+	</checkout_cart_index>
+	
+	<vc_giftwrap_load_layout>
+		<block type="vc_giftwrap/list" name="product.giftwrap.layout" as="product.giftwrap.layout" translate="label">
+			<action method="setTemplate" ifconfig="vc_giftwrap/general/enable"><template>vc_giftwrap/layout.phtml</template></action>
+			<block type="vc_giftwrap/list" name="product.giftwrap.list" as="product.giftwrap.list" translate="label">
+				<action method="setTemplate" ifconfig="vc_giftwrap/general/enable"><template>vc_giftwrap/catalog/product/view/giftwrap/list.phtml</template></action>
+			</block>
+		</block>
+	</vc_giftwrap_load_layout>
+	
+	<checkout_onepage_index>
+		<update handle="vc_giftwrap"/>
+	</checkout_onepage_index>
+	
+	<checkout_onepage_review>
+		
+		<reference name="checkout.onepage.review.info.items.before">
+			<block type="vc_giftwrap/wrap" name="checkout.giftwrap" as="checkout.giftwrap">
+				<action method="setTemplate" ifconfig="vc_giftwrap/general/enable"><template>vc_giftwrap/checkout/onepage/review/giftwrap/list.phtml</template></action>
+			</block>
+		</reference>
+	</checkout_onepage_review>
+	
+	<sales_order_view>
+		<update handle="vc_giftwrap"/>
+		<reference name="sales.order.view">
+			<action method="setTemplate" ifconfig="vc_giftwrap/general/enable"><template>vc_giftwrap/sales/order/view.phtml</template></action>
+			<block type="vc_giftwrap/wrap" name="sales.order.giftwrap" as="sales.order.giftwrap">
+				<action method="setTemplate" ifconfig="vc_giftwrap/general/enable"><template>vc_giftwrap/sales/order/giftwrap/list.phtml</template></action>
+			</block>
+		</reference>
+	</sales_order_view>
+	
+	<sales_order_invoice>
+		<update handle="vc_giftwrap"/>
+		
+		<reference name="invoice_items">
+			<action method="setTemplate" ifconfig="vc_giftwrap/general/enable"><template>vc_giftwrap/sales/order/invoice/items.phtml</template></action>
+			<block type="vc_giftwrap/wrap_invoice" name="sales.invoice.giftwrap" as="sales.invoice.giftwrap">
+				<action method="setTemplate" ifconfig="vc_giftwrap/general/enable"><template>vc_giftwrap/sales/order/invoice/giftwrap/list.phtml</template></action>
+			</block>
+		</reference>
+	</sales_order_invoice>
+	
+	<sales_order_shipment>
+		<update handle="vc_giftwrap"/>
+		<reference name="shipment_items">
+			<action method="setTemplate" ifconfig="vc_giftwrap/general/enable"><template>vc_giftwrap/sales/order/shipment/items.phtml</template></action>
+			<block type="vc_giftwrap/wrap_shipment" name="sales.shipment.giftwrap" as="sales.shipment.giftwrap">
+				<action method="setTemplate" ifconfig="vc_giftwrap/general/enable"><template>vc_giftwrap/sales/order/shipment/giftwrap/list.phtml</template></action>
+			</block>
+		</reference>
+	</sales_order_shipment>
+	
+	<sales_order_creditmemo>
+		<update handle="vc_giftwrap"/>
+		<reference name="creditmemo_items">
+			<action method="setTemplate" ifconfig="vc_giftwrap/general/enable"><template>vc_giftwrap/sales/order/creditmemo/items.phtml</template></action>
+			<block type="vc_giftwrap/wrap_creditmemo" name="sales.creditmemo.giftwrap" as="sales.creditmemo.giftwrap">
+				<action method="setTemplate" ifconfig="vc_giftwrap/general/enable"><template>vc_giftwrap/sales/order/creditmemo/giftwrap/list.phtml</template></action>
+			</block>
+		</reference>
+	</sales_order_creditmemo>
+	
+	<sales_order_print>
+		<update handle="vc_giftwrap"/>
+		<reference name="sales.order.print">
+			<action method="setTemplate" ifconfig="vc_giftwrap/general/enable"><template>vc_giftwrap/sales/order/print.phtml</template></action>
+			<block type="vc_giftwrap/wrap" name="sales.order.giftwrap" as="sales.order.giftwrap">
+				<action method="setTemplate" ifconfig="vc_giftwrap/general/enable"><template>vc_giftwrap/sales/order/giftwrap/list.phtml</template></action>
+			</block>
+		</reference>
+	</sales_order_print>
+	
+	<sales_order_printinvoice>
+		<update handle="vc_giftwrap"/>
+		<reference name="sales.order.print.invoice">
+			<action method="setTemplate" ifconfig="vc_giftwrap/general/enable"><template>vc_giftwrap/sales/order/print/invoice.phtml</template></action>
+			<block type="vc_giftwrap/wrap_invoice" name="sales.invoice.giftwrap" as="sales.invoice.giftwrap">
+				<action method="setTemplate" ifconfig="vc_giftwrap/general/enable"><template>vc_giftwrap/sales/order/invoice/giftwrap/list.phtml</template></action>
+			</block>
+		</reference>
+	</sales_order_printinvoice>
+
+
+	<sales_order_printshipment>
+		<update handle="vc_giftwrap"/>
+		<reference name="sales.order.print.shipment">
+			<action method="setTemplate" ifconfig="vc_giftwrap/general/enable"><template>vc_giftwrap/sales/order/print/shipment.phtml</template></action>
+			<block type="vc_giftwrap/wrap_shipment" name="sales.shipment.giftwrap" as="sales.shipment.giftwrap">
+				<action method="setTemplate" ifconfig="vc_giftwrap/general/enable"><template>vc_giftwrap/sales/order/shipment/giftwrap/list.phtml</template></action>
+			</block>
+		</reference>
+	</sales_order_printshipment>
+
+
+	<sales_order_printcreditmemo>
+		<update handle="vc_giftwrap"/>
+		<reference name="sales.order.print.creditmemo">
+			<action method="setTemplate" ifconfig="vc_giftwrap/general/enable"><template>vc_giftwrap/sales/order/print/creditmemo.phtml</template></action>
+			<block type="vc_giftwrap/wrap_creditmemo" name="sales.creditmemo.giftwrap" as="sales.creditmemo.giftwrap">
+				<action method="setTemplate" ifconfig="vc_giftwrap/general/enable"><template>vc_giftwrap/sales/order/creditmemo/giftwrap/list.phtml</template></action>
+			</block>
+		</reference>
+	</sales_order_printcreditmemo>
+	
+</layout>

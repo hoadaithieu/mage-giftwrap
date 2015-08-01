@@ -1,0 +1,110 @@
+<?php
+$collection = $this->getList();
+if ($collection && $collection->getSize() > 0) :
+?>
+<table id="shopping-cart-table" class="cart-table data-table giftwrap-table">
+	<col width="10px" />
+	<col />
+	<col />
+	<col />
+	<col width="10%" />
+	<col width="10px" />
+	<thead>
+		<tr>
+			<th><?php echo $this->__('NO');?></th>
+			<th><?php echo $this->__('GIFT BOX');?></th>
+			<th><?php echo $this->__('GIFT CARD');?></th>
+			<th><?php echo $this->__('WRAPPED ITEMS');?></th>
+			<th><?php echo $this->__('SUBTOTAL');?></th>
+			<th></th>
+		</tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<td colspan="6" class="a-left">
+				<button type="button" name="empty_giftwrap" id="empty_giftwrap" data-link="<?php echo $this->getUrl('vc_giftwrap/wrap/empty');?>" title="<?php echo $this->__('Empty Gift Wrap'); ?>" class="button" ><span><span><?php echo $this->__('Empty Gift Wrap'); ?></span></span></button>			
+			</td>
+		</tr>
+	</tfoot>	
+	<tbody>				
+	<?php
+		$i = 0;
+		$items = $this->processGroup($collection);
+		foreach ($items as $item) :
+			$i++;
+			$product = Mage::getModel('catalog/product')->load($item->getProductId());
+	?>
+	<tr>
+		<td>#<?php echo $i;?></td>
+		<td>
+			<img src="<?php echo $this->getImage($item->getBoxImage());?>">
+			<br/><b><?php echo $item->getBoxTitle();?>:</b> <?php echo $this->helper('checkout')->formatPrice($item->getBoxPrice());?>
+			<br/>
+			<a href="javascript:void(0)" id="giftwrap_box_<?php echo $item->getId();?>" data-link="<?php echo $this->getUrl('vc_giftwrap/wrap/loadWrapLayout', array('id' => $item->getId(), 'type' => "box"));?>"><?php echo $this->__('Change Gift Box');?></a>
+		</td>
+		<td>
+			<?php if (strlen(trim($item->getCardPrice())) > 0) :?>
+				<img src="<?php echo $this->getImage($item->getCardImage());?>">
+				<br/><b><?php echo $item->getCardTitle();?>:</b> <?php echo $this->helper('checkout')->formatPrice($item->getCardPrice());?>
+				<br/><a href="javascript:void(0)" id="giftwrap_card_<?php echo $item->getId();?>" data-link="<?php echo $this->getUrl('vc_giftwrap/wrap/loadWrapLayout', array('id' => $item->getId(), 'type' => "card"));?>"><?php echo $this->__('Change Gift Card');?></a>
+			<?php else:?>
+				--
+			<?php endif;?>
+		</td>
+		<td class="giftwrap-icol">
+			<?php
+			$price = 0.00;
+			$groupItem = $item->getGroupItem();
+			if (is_array($groupItem) && count($groupItem) > 0) :
+				?>
+				<table class="giftwrap-itable">
+					<col width="70%"/>
+					<col />
+					<tbody>
+					
+				<?php
+				foreach ($groupItem as $itemGroup) :
+					$price += $itemGroup['product_qty'] * $itemGroup['price'];
+					?>
+					<tr>
+						<td class="product-cart-info">
+							<h2 class="product-name"><?php echo $itemGroup['product_name'];?></h2>
+							<div class="product-cart-sku"><span class="label">SKU:</span> <?php echo $itemGroup['sku'];?></div>
+							<br/>
+							<a href="javascript:void(0)" id="giftwrap_product_<?php echo $itemGroup['sku'];?>" data-link="<?php echo $this->getUrl('vc_giftwrap/wrap/loadWrapLayout', array('id' => $item->getId(), 'type' => 'product'));?>" title="<?php echo $this->__('Edit') ?>" class="btn-edit"><?php echo $this->__('Edit') ?></a> 
+							- 
+							<a href="<?php echo $this->getUrl('vc_giftwrap/wrap/deleteItem', array('id' => $itemGroup['wrap_id']));?>"><?php echo $this->__('Remove');?></a>
+						</td>
+						<td>
+							<input type="text" name="giftwrap_qty[]" data-id="<?php echo $itemGroup['wrap_id'];?>" id="giftwrap_qty_<?php echo $itemGroup['wrap_id'];?>" value="<?php echo $itemGroup['product_qty'];?>" size="4" title="Qty" class="input-text qty" maxlength="12"/> x <?php echo $this->helper('checkout')->formatPrice($itemGroup['price']);?>
+							<br/>
+							<button type="button"  name="update_giftwrap_action[]" id="update_giftwrap_action_<?php echo $itemGroup['wrap_id'];?>" data-id="<?php echo $itemGroup['wrap_id'];?>" 
+							data-link="<?php echo $this->getUrl('vc_giftwrap/wrap/updateQty', array('id' => $itemGroup['wrap_id']));?>" value="update_qty" title="Update" class="button btn-update" style="display: block;background:#3399cc;margin-top:10px;display:none">
+								<span><span>Update</span></span>
+							</button>							
+						</td>
+					</tr>
+					<?php
+				endforeach;
+				?>
+					</tbody>
+				</table>	
+				<?php
+			endif;
+			?>
+		</td>
+		<td><?php echo $this->helper('checkout')->formatPrice($price);?></td>
+		<td class="a-center product-cart-remove">
+        	<a href="<?php echo $this->getUrl('vc_giftwrap/wrap/deleteGroup', array('group_id' => $item->getGroupId()));?>" title="<?php echo $this->__('Remove Item') ?>" class="btn-remove btn-remove2"><?php echo $this->__('Remove Item') ?></a>
+		</td>	
+    </td>
+
+	</tr>
+	<?php
+		endforeach;
+	?>
+	</tbody>
+</table>
+<?php	
+endif;
+?>

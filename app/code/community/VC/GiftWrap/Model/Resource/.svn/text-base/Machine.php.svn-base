@@ -1,0 +1,18 @@
+<?php
+/**
+ * Customer group resource model
+ *
+ * @category    Mage
+ * @package     Mage_Customer
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class GOS_JobBag_Model_Resource_Machine extends Mage_Core_Model_Resource_Db_Abstract
+{
+    /**
+     * Resource initialization
+     */
+    protected function _construct()
+    {
+        $this->_init('jobbag/machine', 'machine_jobbag_id');
+    }
+}

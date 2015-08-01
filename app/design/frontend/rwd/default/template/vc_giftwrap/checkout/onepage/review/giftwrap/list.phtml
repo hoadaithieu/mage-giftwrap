@@ -1,0 +1,86 @@
+<?php
+$collection = $this->getList();
+if ($collection && $collection->getSize() > 0) :
+?>
+<table id="shopping-cart-table" class="cart-table data-table giftwrap-table">
+	<col width="10px" />
+	<col />
+	<col />
+	<col />
+	<col width="10%" />
+	<thead>
+		<tr>
+			<th><?php echo $this->__('NO');?></th>
+			<th><?php echo $this->__('GIFT BOX');?></th>
+			<th><?php echo $this->__('GIFT CARD');?></th>
+			<th><?php echo $this->__('WRAPPED ITEMS');?></th>
+			<th><?php echo $this->__('SUBTOTAL');?></th>
+		</tr>
+	</thead>
+	<tbody>				
+	<?php
+		$i = 0;
+		$items = $this->processGroup($collection);
+		foreach ($items as $item) :
+			$i++;
+			$product = Mage::getModel('catalog/product')->load($item->getProductId());
+	?>
+	<tr>
+		<td>#<?php echo $i;?></td>
+		<td>
+			<img src="<?php echo $this->getImage($item->getBoxImage());?>">
+			<br/><?php echo $this->helper('checkout')->formatPrice($item->getBoxPrice());?>
+		</td>
+		<td>
+			<?php if (strlen(trim($item->getCardPrice())) > 0) :?>
+				<img src="<?php echo $this->getImage($item->getCardImage());?>">
+				<br/><?php echo $this->helper('checkout')->formatPrice($item->getCardPrice());?>
+			<?php else:?>
+				--
+			<?php endif;?>
+		</td>
+		<td class="giftwrap-icol">
+			<?php
+			$price = 0.00;
+			$groupItem = $item->getGroupItem();
+			if (is_array($groupItem) && count($groupItem) > 0) :
+				?>
+				<table class="giftwrap-itable">
+					<col width="70%"/>
+					<col />
+					<tbody>
+					
+				<?php
+				foreach ($groupItem as $itemGroup) :
+					$price += $itemGroup['product_qty'] * $itemGroup['price'];
+					?>
+					<tr>
+						<td class="product-cart-info">
+							<h2 class="product-name"><?php echo $itemGroup['product_name'];?></h2>
+							<div class="product-cart-sku"><span class="label">SKU:</span> <?php echo $itemGroup['sku'];?></div>
+						</td>
+						<td>
+							<?php echo $itemGroup['product_qty'];?> x <?php echo $this->helper('checkout')->formatPrice($itemGroup['price']);?>
+						</td>
+					</tr>
+					<?php
+				endforeach;
+				?>
+					</tbody>
+				</table>	
+				<?php
+			endif;
+			?>
+		</td>
+		<td><?php echo $this->helper('checkout')->formatPrice($price);?></td>
+    </td>
+
+	</tr>
+	<?php
+		endforeach;
+	?>
+	</tbody>
+</table>
+<?php	
+endif;
+?>

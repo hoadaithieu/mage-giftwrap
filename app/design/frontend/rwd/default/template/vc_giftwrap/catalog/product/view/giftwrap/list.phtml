@@ -1,0 +1,132 @@
+<?php
+$boxCollection = $this->getBoxList();
+$cardCollection = $this->getCardList();
+
+$groupCollection = $this->getGroupList();
+
+$quoteItemId = 0;
+$groupId = 0;
+if (Mage::app()->getRequest()->getRequestedRouteName().'_'.Mage::app()->getRequest()->getRequestedControllerName().'_'.Mage::app()->getRequest()->getRequestedActionName() == 'checkout_cart_configure') {
+	$quoteItemId = Mage::app()->getRequest()->getParam('id');
+	$model = Mage::getModel('vc_giftwrap/wrap')->load($quoteItemId,'quote_item_id');
+	if ($model && $model->getId() > 0) :
+		$groupId = $model->getGroupId();
+	endif;
+}
+?>
+
+<div class="vc_giftwrap">
+
+<?php
+
+
+// show popup
+if ($this->getGroupId() > 0) :
+	$groupId = $this->getGroupId();
+endif;
+?>
+
+	
+	<?php
+	$existingDisplay = '';
+	if ($groupCollection && $groupCollection->getSize() > 0) :
+		$existingDisplay = 'none';
+	?>
+	<div class="vcgw-existing">
+		<label for="giftwrap_existing_1"><input type="radio" name="giftwrap_existing[]" id="giftwrap_existing_1" value="1"> <?php echo $this->__('Add to Existing Giftwrap!');?></label>
+	</div>
+	
+	<div class="vcgw-group" style="display:<?php echo $existingDisplay;?>">
+		<input type="hidden" name="quote_item_id" id="quote_item_id" value="<?php echo $quoteItemId;?>"/>
+		<?php
+	 	foreach ($groupCollection as $group) :
+		?>
+			<label for="giftwrap_group_<?php echo $group->getGroupId();?>">
+				<input type="radio" name="giftwrap_group[]" id="giftwrap_group_<?php echo $group->getGroupId();?>" value="<?php echo $group->getGroupId();?>" <?php if ($group->getGroupId() == $groupId) : echo "checked"; endif;?>/> <?php echo $group->getBoxTitle(). '-'. $group->getCardTitle();?>
+				<div class="list">
+					<div class="item">
+						<img src="<?php echo $this->getImage($group->getBoxImage());?>"/>
+						<br/>
+						<?php echo $group->getBoxTitle();?> - <?php echo $this->helper('checkout')->formatPrice($group->getBoxPrice());?>
+					</div>
+					<?php if (strlen(trim($group->getCardImage())) > 0) :?>
+					
+					<div class="item">
+						<img src="<?php echo $this->getImage($group->getCardImage());?>"/>
+						<br/>
+						<?php echo $group->getCardTitle();?> - <?php echo $this->helper('checkout')->formatPrice($group->getCardPrice());?>
+					</div>
+					
+					<?php endif;?>
+				</div>
+			</label>
+		<?php
+		endforeach;
+		?>
+	</div>
+	<?php	
+	endif;
+	?>
+
+	<?php 
+	$newDisplay = '';
+	if (($boxCollection && $boxCollection->getSize() > 0) || ($cardCollection && $cardCollection->getSize() > 0)) :
+		$newDisplay = 'none';
+	?>
+
+	<div class="vcgw-new">
+		<label for="giftwrap_existing_0"><input type="radio" name="giftwrap_existing[]" id="giftwrap_existing_0" value="0"> <?php echo $this->__('Create New Giftwrap!');?></label>
+	</div>
+	<?php endif;?>
+
+	<?php 
+	if ($boxCollection && $boxCollection->getSize() > 0) :
+	?>
+	<div class="vcgw-box" style="display:<?php echo $newDisplay;?>">
+		<div class="vcgw-title"><label><?php echo $this->__('Gift Box');?></label></div>
+		<div class="vcgw-content">
+		<?php 
+		foreach ($boxCollection as $box) :
+		?>
+			<div class="item">
+				<img src="<?php echo $this->getImage($box->getImage());?>"/>
+				<span class="i-price"><label for="box_id_<?php echo $box->getId();?>"><input type="radio" name="giftwrap_box[]" id="box_id_<?php echo $box->getId();?>" value="<?php echo $box->getId();?>"/><?php echo $this->helper('checkout')->formatPrice($box->getPrice());?></label></span>
+			</div>
+		<?php
+		endforeach;
+		?>
+		</div>
+	</div>
+	<?php
+	endif;
+	?>
+	
+	
+	<?php 
+	if ($cardCollection && $cardCollection->getSize() > 0) :
+	?>
+	<div class="vcgw-card" style="display:<?php echo $newDisplay;?>">
+		<div class="vcgw-title"><label><?php echo $this->__('Gift Card');?></label></div>
+		<div class="vcgw-content">
+		<?php 
+		foreach ($cardCollection as $card) :
+		?>
+			<div class="item">
+				<img src="<?php echo $this->getImage($card->getImage());?>"/>
+				<span class="i-price"><label for="card_id_<?php echo $card->getId();?>"><input type="radio" name="giftwrap_card[]" id="card_id_<?php echo $card->getId();?>" value="<?php echo $card->getId();?>" data-max-characters="<?php echo $card->getMaxCharacters();?>"/><?php echo $this->helper('checkout')->formatPrice($card->getPrice());?></label></span>
+			</div>
+		<?php
+		endforeach;
+		?>
+		</div>
+		
+		<div class="vcgw-message">
+			<div><?php echo $this->__('YOUR MESSAGE')?> (<span id="card_max_character"><?php echo Mage::getStoreConfig('vc_giftwrap/card/max_character_default');?></span> <?php echo $this->__('MAX')?>)</div>
+			<textarea name="card_message" id="card_message" maxlength="<?php echo Mage::getStoreConfig('vc_giftwrap/card/max_character_default');?>"></textarea>
+		</div>
+	</div>
+	<?php
+	endif;
+	?>
+</div>
+

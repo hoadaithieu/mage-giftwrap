@@ -1,0 +1,77 @@
+<?php
+/**
+ * Product entity resource model
+ *
+ * @category    GOS
+ * @package     GOS_JobBag
+ * @author      GOS Team
+ */
+class GOS_JobBag_Model_Resource_Jobbag extends GOS_JobBag_Model_Resource_Abstract
+{
+    /**
+     * Initialize resource
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->setType(GOS_JobBag_Model_Jobbag::ENTITY)
+             ->setConnection('jobbag_read', 'jobbag_write');
+    }
+
+    /**
+     * Default product attributes
+     *
+     * @return array
+     */
+    protected function _getDefaultAttributes()
+    {
+		return array('entity_id', 'entity_type_id', 'attribute_set_id', 'website_id', 'increment_id', 'order_id', 'created_at', 'machine_id', 'product_id', 'updated_at', 'is_active');
+    }
+
+    /**
+     * Process product data before save
+     *
+     * @param Varien_Object $object
+     * @return GOS_JobBag_Model_Resource_Jobbag
+     */
+    protected function _beforeSave(Varien_Object $object)
+    {
+        return parent::_beforeSave($object);
+    }
+
+    /**
+     * Save data related with product
+     *
+     * @param Varien_Object $jobbag
+     * @return GOS_JobBag_Model_Resource_Jobbag
+     */
+    protected function _afterSave(Varien_Object $jobbag)
+    {
+        return parent::_afterSave($jobbag);
+    }
+
+    /**
+     * Get default attribute source model
+     *
+     * @return string
+     */
+    public function getDefaultAttributeSourceModel()
+    {
+        return 'eav/entity_attribute_source_table';
+    }
+
+
+	public function getAttributes($groupId) {
+		$attributes = array();
+		$adapter  = $this->_getReadAdapter();
+		$select = $adapter->select()
+			->from(array('main_table' => $this->getTable('eav_entity_attribute')), 'attribute_id')
+			->where('attribute_group_id = ?', (int)$groupId);
+		$rows = $adapter->fetchAll($select);
+		foreach ($rows as $row) {
+			$attribute = Mage::getResourceModel('jobbag/eav_attribute')->load($row['attribute_id']);
+			$attributes[] = $attribute;
+		}
+		return $attributes;
+	}
+}
